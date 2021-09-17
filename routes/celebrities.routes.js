@@ -17,22 +17,22 @@ router.post("/create", (req, res) => {
   const { name, occupation, catchPhrase } = req.body; //destructuring.destructurar
 
   Celebrity.create({ name, occupation, catchPhrase })
-    .then((createdCelebrity) => {
+    .then(() => {
       res.redirect("/celebrities");
     })
     .catch((err) => {
       console.error("Error creating Celebrity:", err);
-      res.render("celebrities/new-celebrity");
+      res.render("celebrities/new-celebrity", {
+        errorMessage: "Cannot create celebrity",
+      });
     });
 });
 
-router.get("/celebrities", (req, res) => {
+router.get("/", (req, res) => {
   Celebrity.find()
-    .then((allCelebrities) => {
-      console.log(allCelebrities);
-      res.render("celebrities/celebrities", {
-        Celebrities: allCelebrities,
-      });
+    .then((allcelebrities) => {
+      console.log(allcelebrities);
+      res.render("celebrities/celebrities", { allcelebrities });
       // "You never pass an array, you always pass an object. Always." said And
     })
     .catch((err) => {
