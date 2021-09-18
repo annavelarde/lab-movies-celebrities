@@ -28,15 +28,15 @@ router.post("/create", (req, res) => {
     });
 });
 
-router.get("/", (req, res) => {
+router.get("/", (req, res, next) => {
   Celebrity.find()
     .then((allcelebrities) => {
       console.log(allcelebrities);
-      res.render("celebrities/celebrities", { allcelebrities });
+      res.render("celebrities/celebrities", { celebrities: allcelebrities });
       // "You never pass an array, you always pass an object. Always." said And
     })
     .catch((err) => {
-      console.log(err);
+      console.log("No puedo leer el documento ", err);
     });
   // We display the data, celebrities.hbs
 });
