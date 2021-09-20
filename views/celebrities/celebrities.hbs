@@ -1,6 +1,8 @@
-<h2>Celebrities</h2>
+<h2>List of Celebrities</h2>
+<a href="/">Go Back</a>
 {{#each celebrities}}
-  Name:
-  <p>{{this.name}}</p>
-  {{!-- <a href="/celebrities/{{this.id}}">See more</a> --}}
+  <p>Celebrity Name: {{this.name}}</p>
+  <p>Occupation: {{this.occupation}}</p>
+  <p>Catch Phrase: {{this.catchPhrase}}</p>
+  <a href="/celebrities/{{this.id}}">See more</a>
 {{/each}}

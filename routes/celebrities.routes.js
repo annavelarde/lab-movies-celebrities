@@ -10,13 +10,14 @@ const Celebrity = require("../models/Celebrity.model.js");
 
 //all routes
 router.get("/create", (req, res) => {
+  //end point. address
   res.render("celebrities/new-celebrity");
 });
 
 router.post("/create", (req, res) => {
   const { name, occupation, catchPhrase } = req.body; //destructuring.destructurar
 
-  Celebrity.create({ name, occupation, catchPhrase })
+  Celebrity.create({ name, occupation, catchPhrase }) //va en la base de datos
     .then(() => {
       res.redirect("/celebrities");
     })
