@@ -1,13 +1,17 @@
-const mongoose = require("mongoose");
-const Schema = mongoose.Schema;
+// const mongoose = require("mongoose");
+const { Schema, model } = require("mongoose");
 
 const movieSchema = new Schema({
   title: String,
   genre: String,
   plot: String,
-  cast: Array, //Array of object IDs referencing the Celebrity model (basically, the array of celebrities' IDs)
+  cast: [{ type: Schema.Types.ObjectId, ref: "Celebrity" }],
 });
 
-const Movie = mongoose.model("Movie", movieSchema);
+//ref://Array of object IDs referencing the Celebrity model (basically, the array of celebrities' IDs)
+
+const Movie = model("Movie", movieSchema);
 //export the celebrity Schema
 module.exports = Movie;
+
+//ref always needs to be the same as the collection. this case Movie.

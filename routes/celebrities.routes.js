@@ -9,6 +9,7 @@ const Celebrity = require("../models/Celebrity.model.js");
 // });
 
 //all routes
+
 router.get("/create", (req, res) => {
   //end point. address
   res.render("celebrities/new-celebrity");
@@ -16,6 +17,7 @@ router.get("/create", (req, res) => {
 
 router.post("/create", (req, res) => {
   const { name, occupation, catchPhrase } = req.body; //destructuring.destructurar
+  // Celeb.create(req.body).then()
 
   Celebrity.create({ name, occupation, catchPhrase }) //va en la base de datos
     .then(() => {
@@ -23,9 +25,7 @@ router.post("/create", (req, res) => {
     })
     .catch((err) => {
       console.error("Error creating Celebrity:", err);
-      res.render("celebrities/new-celebrity", {
-        errorMessage: "Cannot create celebrity",
-      });
+      res.render("celebrities/new-celebrity", { ...req.body });
     });
 });
 
@@ -33,11 +33,12 @@ router.get("/", (req, res, next) => {
   Celebrity.find()
     .then((allcelebrities) => {
       console.log(allcelebrities);
-      res.render("celebrities/celebrities", { celebrities: allcelebrities });
+      res.render("celebrities/celebrities", { allcelebrities });
       // "You never pass an array, you always pass an object. Always." said And
     })
     .catch((err) => {
       console.log("No puedo leer el documento ", err);
+      res.redirect("/");
     });
   // We display the data, celebrities.hbs
 });

@@ -2,11 +2,11 @@
 <a href="/">Go Back</a>
 <hr>
 </br>
-{{#each movies}}
+{{#each allmovies}}
   <p>Title: {{this.title}}</p>
   <p>Genre: {{this.genre}}</p>
   <p>Plot: {{this.plot}}</p>
-  <a href="/movies/{{this._id}}">See more</a> 
+  <a href="/movies/{{this._id}}">{{this.title}}</a> 
   <br />
   <br />
 {{/each}} 
