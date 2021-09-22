@@ -72,7 +72,7 @@ router.post("/:id/delete", (req, res) => {
 
 //Editing Movies
 
-router.get("/:id/edit", (req, res) => {
+router.get("/:id/edit", (req, res, next) => {
   const { movieId } = req.params.id;
 
   const updateMovie = Movie.findById(movieId);
@@ -87,6 +87,20 @@ router.get("/:id/edit", (req, res) => {
       console.error("Error: ", err);
       res.redirect("/");
     });
+});
+
+router.post("/:id", (req, res, next) => {
+  const { updateMovie } = req.params;
+  const { title, genre, plot, cast } = req.body;
+
+  Movie.findByIdAndUpdate(
+    updateMovie,
+    { title, genre, plot, cast },
+    { new: true }
+  )
+    .then((updateMovie) => res.redirect(`/movies/${updateMovie.id}`))
+    .catch((error) => next(error));
+  // res.redirect("/");
 });
 
 module.exports = router;
