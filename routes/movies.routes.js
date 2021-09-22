@@ -9,8 +9,8 @@ const Celebrity = require("../models/Celebrity.model");
 // });
 
 router.get("/create", (req, res) => {
-  Celebrity.find().then((celebrities) => {
-    res.render("movies/new-movie", { celebrities });
+  Celebrity.find().then((celebritiesDB) => {
+    res.render("movies/new-movie", { celebritiesDB });
   });
 });
 
@@ -37,6 +37,8 @@ router.get("/", (req, res, next) => {
     });
 });
 
+//movie details page router
+
 router.get("/:id", (req, res) => {
   Movie.findById(req.params.id)
     .populate("cast")
@@ -52,11 +54,34 @@ router.get("/:id", (req, res) => {
     });
 });
 
+//Deleting Movies
+
 router.post("/:id/delete", (req, res) => {
   //   Movie.deleteOne({ _id: new mongoose.mongo.ObjectId(req.params.id) }). you can also do it like that
-  Movie.findByIdAndDelete(req.params.id)
+  const { deleteId } = req.params.id;
+
+  Movie.findByIdAndDelete(deleteId)
     .then(() => {
       res.redirect("/movies");
+    })
+    .catch((err) => {
+      console.error("Error: ", err);
+      res.redirect("/");
+    });
+});
+
+//Editing Movies
+
+router.get("/:id/edit", (req, res) => {
+  const { movieId } = req.params.id;
+
+  const updateMovie = Movie.findById(movieId);
+  const celebrity = Celebrity.find();
+
+  Promise.all([updateMovie, celebrity])
+
+    .then(([updateMovie, celebrity]) => {
+      res.render("movies/edit-movie", { updateMovie, celebrity });
     })
     .catch((err) => {
       console.error("Error: ", err);
